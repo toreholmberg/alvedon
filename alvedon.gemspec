@@ -15,10 +15,15 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Alvedon::VERSION
 
+  gem.add_dependency 'thor'
+  gem.add_dependency 'listen'
+  gem.add_dependency 'rb-fsevent'
   gem.add_dependency 'sprockets'
   gem.add_dependency 'sprockets-commonjs'
-  gem.add_dependency 'listen'
   gem.add_dependency 'coffee-script'
-  gem.add_dependency 'thor'
   gem.add_dependency 'sass'
+  gem.add_dependency 'uglifier'
+  gem.add_dependency 'yui-compressor'
+  gem.add_dependency 'exojs'
+
 end
