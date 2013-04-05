@@ -4,14 +4,15 @@ require 'sprockets'
 require 'sprockets/commonjs'
 require 'coffee_script'
 require 'sass'
+require 'exojs'
 
 require_relative 'alvedon/cli'
 
 module Alvedon
-  autoload :CLI, 'catapult/cli'
+  #autoload :CLI, 'catapult/cli'
 
   def self.root
-    @root ||= Pathname(Dir.pwd).expand_path
+    @root ||= Pathname('.').expand_path
   end
 
   def self.build
@@ -27,18 +28,23 @@ module Alvedon
     require 'yui/compressor'
     environment.css_compressor = YUI::CssCompressor.new
 
-    #environment.append_path 'assets/stylesheets'
-    #environment.append_path 'assets/javascripts'
+    try_paths = [
+      %w{ assets },
+      %w{ app },
+      %w{ app assets },
+      %w{ vendor },
+      %w{ vendor assets },
+      %w{ lib },
+      %w{ lib assets }
+    ].inject([]) do |sum, v|
+      sum + [File.join(v, 'javascripts'), File.join(v, 'stylesheets')]
+    end
 
-    environment.append_path(root.join('assets', 'javascripts'))
-    environment.append_path(root.join('assets', 'stylesheets'))
-    environment.append_path(root.join('assets', 'images'))
-
-    environment.append_path(root.join('vendor', 'assets', 'javascripts'))
-    environment.append_path(root.join('vendor', 'assets', 'stylesheets'))
-
-    environment.append_path(root.join('components'))
-
+    $:.each do |root_path|
+      try_paths.map {|p| File.join(root_path, p) }.
+        select {|p| File.directory?(p) }.
+        each {|path| environment.append_path(path) }
+    end
 
     environment.each_logical_path do |logical_path|
       begin
