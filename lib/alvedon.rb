@@ -1,10 +1,7 @@
 require 'pathname'
 require 'fileutils'
 require 'sprockets'
-require 'sprockets/commonjs'
-require 'coffee_script'
-require 'sass'
-require 'exojs'
+require 'listen'
 
 require_relative 'alvedon/cli'
 
@@ -49,14 +46,10 @@ module Alvedon
     environment.each_logical_path do |logical_path|
       begin
         if asset = environment.find_asset(logical_path)
-
-          puts logical_path
-          puts asset.inspect
-
           filename = target.join(logical_path)
           FileUtils.mkpath(filename.dirname)
           asset.write_to(filename)
-          #puts ">> #{filename}"
+          puts ">> #{filename}"
         end
       rescue StandardError => exception
         puts "Error: #{exception}" 
