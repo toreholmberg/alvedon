@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require if File.exists?('Gemfile')
+
+require_relative '../lib/alvedon'
+Alvedon::CLI.start
