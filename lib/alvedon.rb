@@ -2,6 +2,7 @@ require 'pathname'
 require 'fileutils'
 require 'sprockets'
 require 'sprockets/commonjs'
+require 'haml_coffee_assets'
 require 'listen'
 
 module Alvedon
@@ -15,6 +16,7 @@ module Alvedon
       sprockets = Sprockets::Environment.new(root)
 
       sprockets.register_postprocessor 'application/javascript', Sprockets::CommonJS
+      Sprockets.register_engine '.hamlc', ::HamlCoffeeAssets::Tilt::TemplateHandler
 
       try_paths = [
         %w{ assets },
