@@ -22,7 +22,7 @@ module Alvedon
         %w{ lib },
         %w{ lib assets }
       ].inject([]) do |sum, v|
-        sum + [File.join(v, 'javascripts'), File.join(v, 'stylesheets')]
+        sum + [File.join(v, 'javascripts'), File.join(v, 'js'), File.join(v, 'stylesheets')]
       end
 
       ([root] + $:).each do |root_path|
