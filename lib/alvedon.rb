@@ -2,10 +2,6 @@ require 'pathname'
 require 'fileutils'
 require 'sprockets'
 require 'listen'
-require 'uglifier'
-require 'yui/compressor'
-require 'compass'
-require 'susy'
 
 module Alvedon
 
@@ -42,6 +38,8 @@ module Alvedon
   def self.build(*assets, target, compress)
 
     if compress
+      require 'uglifier'
+      require 'yui/compressor'
       sprockets.js_compressor = Uglifier.new :mangle => true
       sprockets.css_compressor = YUI::CssCompressor.new
     end
