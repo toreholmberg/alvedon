@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'listen'
   gem.add_dependency 'rb-fsevent'
   gem.add_dependency 'sprockets'
+  gem.add_dependency 'sprockets-commonjs'
   gem.add_dependency 'coffee-script'
   gem.add_dependency 'sass'
   gem.add_dependency 'uglifier'

@@ -1,6 +1,7 @@
 require 'pathname'
 require 'fileutils'
 require 'sprockets'
+require 'sprockets/commonjs'
 require 'listen'
 
 module Alvedon
@@ -12,6 +13,8 @@ module Alvedon
   def self.sprockets 
     @sprockets ||= begin
       sprockets = Sprockets::Environment.new(root)
+
+      sprockets.register_postprocessor 'application/javascript', Sprockets::CommonJS
 
       try_paths = [
         %w{ assets },
