@@ -2,6 +2,7 @@ require 'pathname'
 require 'fileutils'
 require 'sprockets'
 require 'sprockets-sass'
+require 'sprockets-helpers'
 require 'sass'
 require 'sprockets/commonjs'
 require 'haml_coffee_assets'
@@ -11,6 +12,11 @@ module Alvedon
 
   def self.root
     @root ||= Pathname('.').expand_path
+  end
+
+  def self.asset_path
+    # TODO: make configurable
+    @asset_path ||= File.join(root, 'assets')
   end
 
   def self.sprockets 
@@ -55,9 +61,6 @@ module Alvedon
 
   def self.build(*assets, target, compress)
 
-    # TODO: make configurable
-    asset_path = File.join(root, 'assets')
-
     puts "Asset dir: #{asset_path}"
 
     if compress
@@ -75,8 +78,8 @@ module Alvedon
           asset.write_to(filename)
           puts "Writing: #{filename}"
         end
-      rescue StandardError => exception
-        puts "Error: #{exception.to_s}" 
+      rescue Exception => e
+        puts "Error: #{logical_path}\n#{e}\n#{e.backtrace.join("\n")}" 
       end
     end
 
