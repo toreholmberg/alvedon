@@ -79,7 +79,7 @@ module Alvedon
           puts "Writing: #{filename}"
         end
       rescue Exception => e
-        puts "Error: #{logical_path}\n#{e}\n#{e.backtrace.join("\n")}" 
+        puts "Error: #{logical_path}\n#{e}" 
       end
     end
 
