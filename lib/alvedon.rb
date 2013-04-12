@@ -42,6 +42,11 @@ module Alvedon
 
   def self.build(*assets, target, compress)
 
+    # TODO: make configurable
+    asset_path = File.join(root, 'assets')
+
+    puts "Asset dir: #{asset_path}"
+
     if compress
       require 'uglifier'
       require 'yui/compressor'
@@ -51,11 +56,11 @@ module Alvedon
 
     sprockets.each_logical_path(assets) do |logical_path|
       begin
-        if asset = sprockets.find_asset(logical_path)
+        if asset = sprockets.find_asset(logical_path) and asset.pathname.to_s.match(asset_path)
           filename = target.join(logical_path)
           FileUtils.mkpath(filename.dirname)
           asset.write_to(filename)
-          puts ">> #{filename}"
+          puts "Writing: #{filename}"
         end
       rescue StandardError => exception
         puts "Error: #{exception}" 
