@@ -3,7 +3,6 @@ require 'fileutils'
 require 'sprockets'
 require 'sprockets-sass'
 require 'sass'
-require 'compass'
 require 'sprockets/commonjs'
 require 'haml_coffee_assets'
 require 'listen'
@@ -16,6 +15,17 @@ module Alvedon
 
   def self.sprockets 
     @sprockets ||= begin
+
+      if gem_available?('susy')
+        require 'susy'
+        puts "Found Susy"
+      end
+
+      if gem_available?('compass')
+        require 'compass'
+        puts "Found compass"
+      end
+
       sprockets = Sprockets::Environment.new
 
       sprockets.register_postprocessor 'application/javascript', Sprockets::CommonJS
@@ -66,7 +76,7 @@ module Alvedon
           puts "Writing: #{filename}"
         end
       rescue StandardError => exception
-        puts "Error: #{exception}" 
+        puts "Error: #{exception.to_s}" 
       end
     end
 
@@ -76,6 +86,14 @@ module Alvedon
     build(assets, target, compress)
     paths = sprockets.paths
     Listen.to(*paths) { build(assets, target, compress) }
+  end
+
+  def self.gem_available?(name)
+    Gem::Specification.find_by_name(name)
+  rescue Gem::LoadError
+    false
+  rescue
+    Gem.available?(name)
   end
 
 end

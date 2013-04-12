@@ -24,7 +24,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'haml_coffee_assets'
   gem.add_dependency 'coffee-script'
   gem.add_dependency 'sass'
-  gem.add_dependency 'compass'
   gem.add_dependency 'uglifier'
   gem.add_dependency 'yui-compressor'
 
