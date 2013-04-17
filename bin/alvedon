@@ -3,6 +3,4 @@ require 'rubygems'
 require 'bundler/setup'
 require 'alvedon'
 Bundler.require if File.exists?('Gemfile')
-
-require 'alvedon/cli'
 Alvedon::CLI.start

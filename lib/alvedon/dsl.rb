@@ -1,7 +1,7 @@
 module Alvedon
-  class DSL
-    def initialize
-      @projects = []
+  class << self
+    def project id, &block
+      puts "Alvedon::project #{id}"
     end
   end
 end
