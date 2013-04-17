@@ -4,11 +4,6 @@ require 'pathname'
 module Alvedon
   class CLI < Thor
 
-    def initialize(*args)
-      super *args
-      @builder = Alvedon::Builder.new
-    end
-
     desc 'build [app1.js app2.js..]', 'build assets'
 
     method_option :target, :aliases => '-t', :desc => 'Directory to compile target to'
@@ -23,14 +18,15 @@ module Alvedon
 
       if watch
         puts "Watching.."
-        @builder.watch assets, target, compress
+        Alvedon.watcher.start assets, target, compress
       else
         puts "Building.."
-        @builder.build assets, target, compress
+        Alvedon.builder.compile assets, target, compress
       end
 
     end
 
     default_task :build
+    
   end
 end
