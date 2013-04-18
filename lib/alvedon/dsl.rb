@@ -42,20 +42,27 @@ module Alvedon
 
     def initialize &block
       @sources = []
-
       instance_eval &block
     end
 
-    def source source
-      @sources.push File.join(Alvedon.root, source)
+    def source source, options = {}
+      @sources.push Source.new(source, options)
     end
 
-    def target target
-      @target = target
+    def find_source path
+      @sources.find {|s| s.path == path }
     end
 
-    def get_target
-      @target if @target
+  end
+
+  class Source
+
+    attr_reader :path
+    attr_reader :options
+
+    def initialize path, options = {}
+      @path = File.join(Alvedon.root, path)
+      @options = options
     end
 
   end

@@ -8,10 +8,13 @@ module Alvedon
 
   class Watcher
     
-    def start(*assets, target, compress)
-      Alvedon.builder.compile(assets, target, compress)
+    def listen(*apps)
+      
+      Alvedon.builder.compile(*apps)
+      
+      # TODO: only listen to current app files
       paths = Alvedon.environment.paths
-      Listen.to(*paths) { Alvedon.builder.compile(assets, target, compress) }
+      Listen.to(*paths) { Alvedon.builder.compile(*apps) }
     end
   
   end

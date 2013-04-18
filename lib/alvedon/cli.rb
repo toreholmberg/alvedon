@@ -9,32 +9,16 @@ module Alvedon
       require Alvedon.project_file
     end
 
-    desc 'build [app1.js app2.js..]', 'build assets'
+    desc 'build [app1 app2 ..]', 'build app(s)'
 
-    method_option :target, :aliases => '-t', :desc => 'Directory to compile target to'
-    method_option :watch, :type => :boolean, :aliases => '-w', :desc => 'Watch and build'
-    method_option :compress, :type => :boolean, :aliases => '-c', :desc => 'Compress assets'
-
-    def build(*assets)
-      
-      target = Pathname(options[:target] || './build/')
-      watch = options[:watch]
-      compress = options[:compress]
-
-      if watch
-        puts "Watching.."
-        Alvedon.watcher.start assets, target, compress
-      else
-        puts "Building.."
-        Alvedon.builder.compile assets, target, compress
-      end
-
+    def build(*apps)
+      Alvedon.builder.compile(*apps)
     end
 
-    desc 'app APPNAME', 'build app'
+    desc 'watch [app1 app2 ..]', 'watch app(s)'
 
-    def app app_name
-      Alvedon.builder.compile_app app_name
+    def watch(*apps)
+      Alvedon.watcher.listen(*apps)
     end
 
     default_task :build

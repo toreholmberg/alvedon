@@ -9,49 +9,53 @@ module Alvedon
 
   class Builder
 
-    def compile(*assets, target, compress)
-      
-      Alvedon.environment.each_logical_path(assets) do |logical_path|
-        begin
-          if asset = Alvedon.environment.find_asset(logical_path) and asset.pathname.to_s.match(Alvedon.asset_path)
-            filename = target.join(logical_path)
-            FileUtils.mkpath(filename.dirname)
-            asset.write_to(filename)
-            puts "Writing: #{filename}"
-          end
-        rescue Exception => e
-          puts "Error: #{logical_path}\n#{e}" 
+    def compile(*apps)
+
+      project = Alvedon.get_project
+
+      # no app specified, run all
+      if apps.size == 0
+        project.apps.each do |key, app|
+          compile_app app
+        end
+        return
+      end
+
+      # run specified apps
+      apps.each do |app_name|
+        if app = project.apps[app_name.to_sym]
+          compile_app app
+        else
+          puts "Sorry, app \"#{app_name}\" not found in project file."
         end
       end
 
     end
 
-    def compile_app app_name
-
-      app = Alvedon.get_project.apps[app_name.to_sym]
-
-      unless app
-        puts "Sorry, app \"#{app_name}\" not found in project file."
-        return
-      end
-
-      sources = app.sources
-      target = Pathname(app.get_target)
+    def compile_app(app)
 
       Alvedon.environment.each_logical_path do |logical_path|
         
-        resolved = Alvedon.environment.resolve(logical_path).to_s
-        
-        if sources.include?(resolved) and asset = Alvedon.environment.find_asset(logical_path)
+        begin
+          
+          resolved = Alvedon.environment.resolve(logical_path).to_s
 
-          filename = target.join(logical_path)
+          if source = app.find_source(resolved) and asset = Alvedon.environment.find_asset(logical_path)
 
-          FileUtils.mkpath(filename.dirname)
+            target = Pathname(source.options[:target])
 
-          asset.write_to(filename)
+            filename = target.join(logical_path)
 
-          puts "Writing: #{filename}"
+            FileUtils.mkpath(filename.dirname)
 
+            asset.write_to(filename)
+
+            puts "Writing: #{filename}"
+
+          end
+
+        rescue Exception => e
+          puts "Error: #{logical_path}\n#{e}" 
         end
 
       end
