@@ -2,7 +2,6 @@ require 'alvedon/cli'
 require 'alvedon/dsl'
 require 'alvedon/builder'
 require 'alvedon/watcher'
-require 'alvedon/version'
 require 'alvedon/sprockets/environment'
 
 module Alvedon
@@ -17,25 +16,6 @@ module Alvedon
 
 end
 
-
-# TODO: load config
-# require "#{root}/alvedon"
-
-# Alvedon.project :project1 do
-
-#   asset_dir = 'assets'
-
-#   app :app1 do
-#     source 'javascript/app1.coffee'
-#     target 'build/javascript'
-#   end
-
-#   app :app2 do
-#     source 'javascript/app2.coffee'
-#     target 'build/javascript'
-#   end
-
-# end
 
 # TODO: add frameworks and engines/post processors
 

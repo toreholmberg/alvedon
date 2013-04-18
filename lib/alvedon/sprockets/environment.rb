@@ -18,6 +18,10 @@ module Alvedon
 
       super root
 
+      # frameworks
+      require 'compass'
+      require 'susy'
+
       # post processors
       register_postprocessor 'application/javascript', Sprockets::CommonJS
       

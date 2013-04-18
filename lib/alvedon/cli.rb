@@ -4,6 +4,11 @@ require 'pathname'
 module Alvedon
   class CLI < Thor
 
+    def initialize(*args)
+      super *args
+      require Alvedon.project_file
+    end
+
     desc 'build [app1.js app2.js..]', 'build assets'
 
     method_option :target, :aliases => '-t', :desc => 'Directory to compile target to'
@@ -24,6 +29,12 @@ module Alvedon
         Alvedon.builder.compile assets, target, compress
       end
 
+    end
+
+    desc 'app APPNAME', 'build app'
+
+    def app app_name
+      Alvedon.builder.compile_app app_name
     end
 
     default_task :build
