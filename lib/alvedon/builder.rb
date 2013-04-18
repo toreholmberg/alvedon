@@ -39,8 +39,10 @@ module Alvedon
       target = Pathname(app.get_target)
 
       Alvedon.environment.each_logical_path do |logical_path|
-
-        if asset = Alvedon.environment.find_asset(logical_path) #and sources.include?(asset.pathname.to_s)
+        
+        resolved = Alvedon.environment.resolve(logical_path).to_s
+        
+        if sources.include?(resolved) and asset = Alvedon.environment.find_asset(logical_path)
 
           filename = target.join(logical_path)
 
