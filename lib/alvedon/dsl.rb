@@ -3,7 +3,11 @@ require 'fileutils'
 module Alvedon
 
   def self.project_file
-    "#{root}/alvedon"
+    file = File.join(Alvedon.root, 'alvedon')
+    unless File.exists?("#{file}.rb")
+      abort "Sorry, no project file found. Aborting.."
+    end
+    file
   end
 
   class << self
@@ -51,6 +55,10 @@ module Alvedon
 
     def find_source path
       @sources.find {|s| s.path == path }
+    end
+
+    def match_source file
+      @sources.select { |s| File.dirname(file).match(File.dirname(s.path.to_s)) }.size > 0
     end
 
   end

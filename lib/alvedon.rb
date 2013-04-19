@@ -5,17 +5,10 @@ require 'alvedon/watcher'
 require 'alvedon/sprockets/environment'
 
 module Alvedon
-
   def self.root
     @root ||= Pathname('.').expand_path
   end
-
-  def self.asset_path
-    @asset_path ||= File.join(root, 'assets')
-  end
-
 end
-
 
 # TODO: add frameworks and engines/post processors
 

@@ -3,4 +3,12 @@ require 'rubygems'
 require 'bundler/setup'
 require 'alvedon'
 Bundler.require if File.exists?('Gemfile')
-Alvedon::CLI.start
+
+begin
+  Alvedon::CLI.start
+rescue Interrupt => e
+  puts "\nBye..."
+  exit 1
+rescue SystemExit => e
+  exit e.status
+end

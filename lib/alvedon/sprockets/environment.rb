@@ -1,7 +1,6 @@
-require "sprockets"
-require "sprockets-sass"
+require 'sprockets'
+require 'sprockets-sass'
 require 'sprockets-helpers'
-require 'sass'
 
 require 'sprockets/commonjs'
 require 'haml_coffee_assets'
