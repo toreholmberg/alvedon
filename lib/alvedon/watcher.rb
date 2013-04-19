@@ -19,11 +19,13 @@ module Alvedon
       project = Alvedon.get_project
 
       @apps = []
+      @sources = []
 
       # no app specified, get all
       if apps.size == 0
         project.apps.each do |key, app|
           @apps.push app
+          @sources |= app.sources
         end
       end
 
@@ -31,6 +33,7 @@ module Alvedon
       apps.each do |app_name|
         if app = project.apps[app_name.to_sym]
           @apps.push app
+          @sources |= app.sources
         end
       end
       
@@ -55,10 +58,30 @@ module Alvedon
 
     # find app for changed file and compile app
     def build(file)
-      @apps.select { |a| a.match_source(file) }.each do |app|
-        puts "Change: #{Pathname(file).relative_path_from(Alvedon.root)}"
-        Alvedon.builder.compile_app app
+      
+      puts "Change: #{Pathname(file).relative_path_from(Alvedon.root)}"
+
+      # for sprockets requires, find out if changed file is a source or source dependency and compile
+
+      # TODO: implement dependency lookup for SASS imports
+      
+      dependency_found = false
+
+      @sources.each do |source|
+        if asset = Alvedon.environment[source.path.to_s] and ([asset] + asset.dependencies).select { |a| a.pathname.to_s == file }.size > 0
+          Alvedon.builder.compile_source(source)
+          dependency_found = true
+        end
       end
+      
+      # for non sprockets imports, run if dependency isn't found and compile apps based on path
+
+      unless dependency_found
+        @apps.select { |a| a.match_source(file) }.each do |app|
+           Alvedon.builder.compile_app app
+        end
+      end
+
     end
   
   end

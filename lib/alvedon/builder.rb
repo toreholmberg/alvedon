@@ -54,6 +54,20 @@ module Alvedon
         end
       end
     end
+
+    # TODO: merge with other compile functions and add error checking
+
+    def compile_source(source)
+     
+      if asset = Alvedon.environment.find_asset(source.path.to_s)
+        target = Pathname(source.options[:target])
+        filename = target.join(asset.logical_path)
+        FileUtils.mkpath(filename.dirname)
+        asset.write_to(filename)
+        puts "Writing: #{filename}"
+      end
+
+    end
   end
 
 end
