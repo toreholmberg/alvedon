@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors = ["Tore Holmberg"]
   gem.email = ["tore.holmberg@gmail.com"]
   gem.description = %q{Simple web assets build tool using Sprockets}
-  gem.summary = %q{Qucikly build web assets in any Ruby environment}
+  gem.summary = %q{Simple web assets build tool using Sprockets}
   gem.homepage = "http://github.com/toreholmberg/alvedon"
 
   gem.files = `git ls-files`.split($\)
@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'thor'
   gem.add_dependency 'listen'
-  gem.add_dependency 'rb-fsevent'
   gem.add_dependency 'sprockets'
   gem.add_dependency 'sprockets-sass'
   gem.add_dependency 'sprockets-helpers'

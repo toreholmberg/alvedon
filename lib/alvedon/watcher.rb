@@ -53,7 +53,7 @@ module Alvedon
 
     private
 
-    # find app for changed file and compile
+    # find app for changed file and compile app
     def build(file)
       @apps.select { |a| a.match_source(file) }.each do |app|
         puts "Change: #{Pathname(file).relative_path_from(Alvedon.root)}"

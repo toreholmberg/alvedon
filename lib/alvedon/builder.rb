@@ -31,11 +31,19 @@ module Alvedon
     end
 
     def compile_app(app)
+
+      # compress option
+      if app.get_options[:compress]
+        Alvedon.environment.enable_compressors
+      else
+        Alvedon.environment.disable_compressors
+      end
+
       Alvedon.environment.each_logical_path do |logical_path|
         begin
           resolved = Alvedon.environment.resolve(logical_path).to_s
           if source = app.find_source(resolved) and asset = Alvedon.environment.find_asset(logical_path)
-            target = Pathname(source.options[:target])
+            target = Pathname(source.options[:target] || app.get_options[:target])
             filename = target.join(logical_path)
             FileUtils.mkpath(filename.dirname)
             asset.write_to(filename)
@@ -47,4 +55,5 @@ module Alvedon
       end
     end
   end
+
 end

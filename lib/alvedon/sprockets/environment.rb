@@ -1,11 +1,14 @@
 require 'sprockets'
 require 'sprockets-sass'
 require 'sprockets-helpers'
-
 require 'sprockets/commonjs'
 require 'haml_coffee_assets'
 
 module Alvedon
+
+  def self.root
+    @root ||= Pathname('.').expand_path
+  end
 
   def self.environment
     @environment ||= Alvedon::Environment.new Alvedon.root
@@ -17,14 +20,10 @@ module Alvedon
 
       super root
 
-      # frameworks
-      require 'compass'
-      require 'susy'
-
-      # post processors
+      # register postprocessors
       register_postprocessor 'application/javascript', Sprockets::CommonJS
       
-      # engines
+      # register engines
       register_engine '.hamlc', ::HamlCoffeeAssets::Tilt::TemplateHandler
 
       # append paths
@@ -52,7 +51,15 @@ module Alvedon
 
     end
 
+    def enable_compressors
+      Alvedon.environment.js_compressor = Alvedon::Compressor::JS.new
+      Alvedon.environment.css_compressor = Alvedon::Compressor::CSS.new
+    end
+
+    def disable_compressors
+      Alvedon.environment.js_compressor = nil
+      Alvedon.environment.css_compressor = nil
+    end
+
   end
-
 end
-

@@ -45,8 +45,17 @@ module Alvedon
     attr_reader :sources
 
     def initialize &block
+      @options = {}
       @sources = []
       instance_eval &block
+    end
+
+    def options options = {}
+      @options = options
+    end
+
+    def get_options
+      @options
     end
 
     def source source, options = {}
