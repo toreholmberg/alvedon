@@ -80,6 +80,9 @@ module Alvedon
     def initialize path, options = {}
       @path = File.join(Alvedon.root, path)
       @options = options
+
+      # make sure path is in environment
+      Alvedon.environment.append_path File.dirname(@path)
     end
 
   end
