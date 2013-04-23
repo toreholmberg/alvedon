@@ -1,6 +1,7 @@
 require 'sprockets'
 require 'sprockets-sass'
-require 'sprockets-helpers'
+require 'sass'
+require 'compass'
 require 'sprockets/commonjs'
 require 'haml_coffee_assets'
 
@@ -20,8 +21,11 @@ module Alvedon
 
       super root
 
+      # register compass config
+      Alvedon::Compass.configuration.register
+
       # register postprocessors
-      register_postprocessor 'application/javascript', Sprockets::CommonJS
+      register_postprocessor 'application/javascript', ::Sprockets::CommonJS
       
       # register engines
       register_engine '.hamlc', ::HamlCoffeeAssets::Tilt::TemplateHandler

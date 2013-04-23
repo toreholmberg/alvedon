@@ -10,9 +10,6 @@ module Alvedon
     
     def listen(*apps)
       
-    
-      puts Alvedon.environment.inspect
-
       # first, compile like normal
       Alvedon.builder.compile(*apps)
 

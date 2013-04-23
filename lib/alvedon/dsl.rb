@@ -24,18 +24,24 @@ module Alvedon
 
   class Project
 
-    attr_reader :asset_dir
-    attr_reader :apps
+    attr_reader :apps, :configs
 
     def initialize &block
       @apps = Hash.new
-
+      @configs = Hash.new
       instance_eval &block
     end
 
     def app id, &block
       app = App.new &block
       @apps[id] = app
+    end
+
+    # not sure if this is the way..
+    def config id, &block
+      if id == :compass
+        yield Alvedon::Compass.configuration 
+      end
     end
 
   end
@@ -86,5 +92,7 @@ module Alvedon
     end
 
   end
+
+
 
 end

@@ -1,5 +1,6 @@
 require 'pathname'
 require 'fileutils'
+require 'compass'
 
 module Alvedon
 
