@@ -51,7 +51,7 @@ module Alvedon
       Listen.to(*paths)
         .filter(*filters)
         .change(&callback)
-        .start
+        .start!
     end
 
     private
