@@ -51,7 +51,8 @@ module Alvedon
       Listen.to(*paths)
         .filter(*filters)
         .change(&callback)
-        .start!
+        .force_polling(true)
+        .start
     end
 
     private
